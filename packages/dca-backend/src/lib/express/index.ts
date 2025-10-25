@@ -7,13 +7,23 @@ import { createVincentUserMiddleware } from '@lit-protocol/vincent-app-sdk/expre
 import { getAppInfo, getPKPInfo, isAppUser } from '@lit-protocol/vincent-app-sdk/jwt';
 
 import { handleListPurchasesRoute } from './purchases';
+// import {
+//   handleListSchedulesRoute,
+//   handleEnableScheduleRoute,
+//   handleDisableScheduleRoute,
+//   handleCreateScheduleRoute,
+//   handleDeleteScheduleRoute,
+//   handleEditScheduleRoute,
+// } from './schedules';
+
 import {
-  handleListSchedulesRoute,
-  handleEnableScheduleRoute,
-  handleDisableScheduleRoute,
-  handleCreateScheduleRoute,
-  handleDeleteScheduleRoute,
-  handleEditScheduleRoute,
+  handleListJobsRoute,
+  handleCreateJobRoute,
+  handleDeleteJobRoute,
+  handleListPriceLogsRoute,
+  handleCreateSetPriceJobRoute,
+  handleListSetPriceJobsRoute,
+  handleDeleteSetPriceJobRoute,
 } from './schedules';
 import { userKey, VincentAuthenticatedRequest } from './types';
 import { env } from '../env';
@@ -57,33 +67,42 @@ export const registerRoutes = (app: Express) => {
   }
   app.use(cors(corsConfig));
 
-  app.get('/purchases', middleware, setSentryUserMiddleware, handler(handleListPurchasesRoute));
-  app.get('/schedules', middleware, setSentryUserMiddleware, handler(handleListSchedulesRoute));
-  app.post('/schedule', middleware, setSentryUserMiddleware, handler(handleCreateScheduleRoute));
-  app.put(
-    '/schedules/:scheduleId',
-    middleware,
-    setSentryUserMiddleware,
-    handler(handleEditScheduleRoute)
-  );
-  app.put(
-    '/schedules/:scheduleId/enable',
-    middleware,
-    setSentryUserMiddleware,
-    handler(handleEnableScheduleRoute)
-  );
-  app.put(
-    '/schedules/:scheduleId/disable',
-    middleware,
-    setSentryUserMiddleware,
-    handler(handleDisableScheduleRoute)
-  );
-  app.delete(
-    '/schedules/:scheduleId',
-    middleware,
-    setSentryUserMiddleware,
-    handler(handleDeleteScheduleRoute)
-  );
+  // app.get('/purchases', middleware, setSentryUserMiddleware, handler(handleListPurchasesRoute));
+  // app.get('/schedules', middleware, setSentryUserMiddleware, handler(handleListSchedulesRoute));
+  // app.post('/schedule', middleware, setSentryUserMiddleware, handler(handleCreateScheduleRoute));
+  // app.put(
+  //   '/schedules/:scheduleId',
+  //   middleware,
+  //   setSentryUserMiddleware,
+  //   handler(handleEditScheduleRoute)
+  // );
+  // app.put(
+  //   '/schedules/:scheduleId/enable',
+  //   middleware,
+  //   setSentryUserMiddleware,
+  //   handler(handleEnableScheduleRoute)
+  // );
+  // app.put(
+  //   '/schedules/:scheduleId/disable',
+  //   middleware,
+  //   setSentryUserMiddleware,
+  //   handler(handleDisableScheduleRoute)
+  // );
+  // app.delete(
+  //   '/schedules/:scheduleId',
+  //   middleware,
+  //   setSentryUserMiddleware,
+  //   handler(handleDeleteScheduleRoute)
+  // );
+
+
+  app.get('/jobs', middleware, setSentryUserMiddleware, handler(handleListJobsRoute));
+app.post('/job', middleware, setSentryUserMiddleware, handler(handleCreateJobRoute));
+app.delete('/jobs/:jobId', middleware, setSentryUserMiddleware, handler(handleDeleteJobRoute));
+app.get('/price-logs', middleware, setSentryUserMiddleware, handler(handleListPriceLogsRoute));
+app.post('/set-price-job', middleware, setSentryUserMiddleware, handler(handleCreateSetPriceJobRoute));
+app.get('/set-price-jobs', middleware, setSentryUserMiddleware, handler(handleListSetPriceJobsRoute));
+app.delete('/set-price-jobs/:jobId', middleware, setSentryUserMiddleware, handler(handleDeleteSetPriceJobRoute));
 
   serviceLogger.info(`Routes registered`);
 };

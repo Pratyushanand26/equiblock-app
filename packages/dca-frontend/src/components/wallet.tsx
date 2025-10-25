@@ -174,55 +174,6 @@ export const Wallet: React.FC = () => {
           </span>
         </div>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <img src="/external-logos/usdc-coin-logo.svg" alt="USDC" className="w-4 h-4" />
-            <span
-              className="text-sm font-medium"
-              style={{
-                fontFamily: 'Poppins, system-ui, sans-serif',
-                color: 'var(--footer-text-color, #121212)',
-              }}
-            >
-              USDC Balance
-            </span>
-          </div>
-          <span
-            className="text-sm font-medium"
-            style={{
-              fontFamily: '"Encode Sans Semi Expanded", system-ui, sans-serif',
-              color: 'var(--footer-text-color, #121212)',
-            }}
-          >
-            {isLoadingBalance ? 'Loading...' : `${parseFloat(usdcBalance).toFixed(2)} USDC`}
-          </span>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <img src="/external-logos/wbtc.svg" alt="WBTC" className="w-4 h-4" />
-            <span
-              className="text-sm font-medium"
-              style={{
-                fontFamily: 'Poppins, system-ui, sans-serif',
-                color: 'var(--footer-text-color, #121212)',
-              }}
-            >
-              wBTC Balance
-            </span>
-          </div>
-          <span
-            className="text-sm font-medium"
-            style={{
-              fontFamily: '"Encode Sans Semi Expanded", system-ui, sans-serif',
-              color: 'var(--footer-text-color, #121212)',
-            }}
-          >
-            {isLoadingBalance ? 'Loading...' : `${parseFloat(wbtcBalance).toFixed(6)} WBTC`}
-          </span>
-        </div>
-      </div>
-
       {error && (
         <div
           style={{
@@ -281,6 +232,7 @@ export const Wallet: React.FC = () => {
         onClose={() => setIsModalOpen(false)}
         walletAddress={authInfo?.pkp.ethAddress}
       />
+    </div>
     </div>
   );
 };

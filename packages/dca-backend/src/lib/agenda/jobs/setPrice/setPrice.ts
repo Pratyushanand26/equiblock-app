@@ -6,6 +6,9 @@ import { getOracleSetterClient, litNodeClient } from './vincentAbilities';
 import { env } from '../../../env';
 import { normalizeError } from '../../../error';
 import { PriceLog } from '../../../mongo/models/PurchasedCoin';
+import { delegateeSigner } from './utils/signer';
+
+
 
 export type JobType = Job<JobParams>;
 export type JobParams = {
@@ -23,7 +26,7 @@ export async function setPriceJob(job: JobType, sentryScope: Sentry.Scope): Prom
       data: { pkpInfo, abilityParams },
     } = job.attrs;
 
-    const delegatorEthAddress = pkpInfo?.ethAddress;
+const delegatorEthAddress = pkpInfo?.ethAddress || delegateeSigner.address;
     consola.log('Running setPriceJob...', { _id, delegatorEthAddress, abilityParams });
 
     // ensure litNodeClient is connected (wrapper doesn't auto-connect)

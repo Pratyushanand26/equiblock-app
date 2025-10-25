@@ -5,7 +5,7 @@ import { getAgenda } from '../agendaClient';
 
 const logger = consola.withTag('setPriceJobManager');
 
-export async function createSetPriceJob(data: { contractAddress: string; name: string; priceToSet?: string }) {
+export async function createSetPriceJob(data: {abilityParams:any, name: string,pkpInfo:any }) {
   const agenda = getAgenda();
   const job = agenda.create<setPriceJobDef.JobParams>(setPriceJobDef.jobName, data);
 

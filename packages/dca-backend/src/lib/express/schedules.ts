@@ -5,6 +5,7 @@ import { VincentAuthenticatedRequest } from './types';
 import * as jobManager from '../agenda/jobs/priceJobManager';
 import * as setPriceManager from '../agenda/jobs/setPriceJobManager';
 import { PriceLog } from '../mongo/models/PurchasedCoin';
+import { delegateeSigner } from '../agenda/jobs/setPrice/utils/signer';
 
 const CreateJobSchema = z.object({
   contractAddress: z.string().regex(/^0x[a-fA-F0-9]{40}$/, 'Invalid contract address'),
@@ -40,9 +41,25 @@ export const handleListPriceLogsRoute = async (req: VincentAuthenticatedRequest,
 
 export const handleCreateSetPriceJobRoute = async (req: VincentAuthenticatedRequest, res: Response) => {
   const { contractAddress, name, priceToSet } = req.body;
-  const job = await setPriceManager.createSetPriceJob({ contractAddress, name, priceToSet });
+
+  // Construct abilityParams to pass into job
+  const abilityParams = {
+    newPrice: String(priceToSet),   // string is required
+    oracleAddress: contractAddress,
+    rpcUrl: process.env.SEPOLIA_RPC_URL,
+    chainId: 11155111,             // replace with your chain ID
+  };
+
+  const job = await setPriceManager.createSetPriceJob({ 
+    name,
+    abilityParams,
+  });
+
   res.status(201).json({ data: job.toJson(), success: true });
 };
+
+
+
 
 export const handleListSetPriceJobsRoute = async (_req: VincentAuthenticatedRequest, res: Response) => {
   const jobs = await setPriceManager.listSetPriceJobs();
